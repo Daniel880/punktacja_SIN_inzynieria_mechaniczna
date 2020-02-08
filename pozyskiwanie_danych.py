@@ -1,6 +1,7 @@
 import urllib
 import re
 from tqdm import tqdm
+from threading import Thread 
 
 
 lista_stron = ['https://sin.put.poznan.pl/search/publications/all?yearFrom=2018&yearTo=2020&disciplineCode=inzynieria-mechaniczna&page=1',
@@ -32,8 +33,17 @@ print("liczba publikacji:{}".format(len(lista_id)))
 lista_autorow = {}
 
 
-for id_num in tqdm(range(len(lista_id))):
-    req = urllib.request.urlopen('https://sin.put.poznan.pl/publications/details/' + lista_id[id_num]).read()
+def pobierz_html(art_id):
+    req = urllib.request.urlopen('https://sin.put.poznan.pl/publications/details/' + art_id).read()
 
-    with open('pub_18_20/' + lista_id[id_num]+'.html','wb') as f:
+    with open('pub_18_20/' + art_id+'.html','wb') as f:
         f.write(req)
+
+watki = []
+
+for id_num in tqdm(range(len(lista_id))):
+    watki.append(Thread(target = pobierz_html, args =(lista_id[id_num])))
+    watki[-1].start()
+    
+for i in tqdm(range(len(watki))):
+    watki[i].join()
