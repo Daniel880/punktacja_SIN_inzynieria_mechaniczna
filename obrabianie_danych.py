@@ -2,8 +2,9 @@
 import re
 import os
 from tqdm import tqdm
+import sys
 
-od_roku = '2018'
+od_roku = str(sys.argv[1])
 
 lista_artykulow = os.listdir('./publikacje/{}'.format(od_roku))
 lista_autorow = {}
@@ -47,7 +48,7 @@ for id_num in tqdm(range(len(lista_artykulow))):
 
             
             
-with open('data_t18.csv','w') as f:
+with open('Dane_{}.csv'.format(od_roku),'w') as f:
     f.write('Autor, Liczba publikacji, Liczba "slotow", liczba punktow na autora\n')
     for a in lista_autorow:
         f.write("{},".format(a))

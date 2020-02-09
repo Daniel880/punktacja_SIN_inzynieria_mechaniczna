@@ -1,10 +1,12 @@
-import urllib
+import urllib.request
 import re
 from tqdm import tqdm
 from threading import Thread 
 import os
+import sys
 
-od_roku = '2018'
+od_roku = str(sys.argv[1])
+
 liczba_watkow = 32
 liczba_stron_do_przejrzenia = 20
 
