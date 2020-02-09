@@ -5,10 +5,10 @@ from threading import Thread
 import os
 
 od_roku = '2018'
-liczba_watkow = 256
+liczba_watkow = 32
 liczba_stron_do_przejrzenia = 20
 
-lista_stron =['https://sin.put.poznan.pl/search/publications/all?yearFrom={}&yearTo=2020&disciplineCode=inzynieria-mechaniczna&page={}'.format(od_roku, i) for i in range(liczba_stron_do_przejrzenia)]
+lista_stron =['https://sin.put.poznan.pl/search/publications/all?yearFrom={}&yearTo=2020&disciplineCode=inzynieria-mechaniczna&page={}'.format(od_roku, i) for i in range(1, liczba_stron_do_przejrzenia+1)]
 
 lista_id = []
 
@@ -38,7 +38,7 @@ lista_autorow = {}
             
 
 def pobierz_html(art_id):
-    req = urllib.request.urlopen('https://sin.put.poznan.pl/publications/details/' + art_id, timeout = 600).read()
+    req = urllib.request.urlopen('https://sin.put.poznan.pl/publications/details/' + art_id).read()
 
     with open("./publikacje/{}/{}.html".format(od_roku, art_id),'wb') as f:
         f.write(req)
@@ -52,7 +52,7 @@ ostatni_uruchomiony_watek = 0
 liczba_art = len(lista_id)
 id_num = 0
 
-pbar = tqdm(total=100)
+pbar = tqdm(total=liczba_art)
 
 while id_num < liczba_art or liczba_aktywnych_watkow > 0:
     if liczba_aktywnych_watkow < liczba_watkow and id_num < liczba_art:
