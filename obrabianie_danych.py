@@ -3,15 +3,16 @@ import re
 import os
 from tqdm import tqdm
 
+od_roku = '2018'
 
-lista_artykulow = os.listdir('./pub_18_20')
+lista_artykulow = os.listdir('./publikacje/{}'.format(od_roku))
 lista_autorow = {}
 
 for id_num in tqdm(range(len(lista_artykulow))):
     
     art_id = lista_artykulow[id_num][:-5]
     
-    with open('pub_18_20/' + lista_artykulow[id_num],'rb') as f:
+    with open('./publikacje/{}/'.format(od_roku) + lista_artykulow[id_num],'rb') as f:
         req = f.read().decode("UTF-8")
         
         autorzy_PP = re.findall('people.+".(.+)<.+\n.+\n.+sin', req)
